@@ -1,5 +1,6 @@
 package mcp.development_guides.project.infrastructure.excel.specialized;
 
+import mcp.development_guides.project.domain.model.CellModification;
 import mcp.development_guides.project.domain.model.CellPosition;
 import mcp.development_guides.project.domain.model.ExcelCellData;
 import mcp.development_guides.project.domain.model.ExcelRange;
@@ -143,29 +144,9 @@ public class ExcelMCPService {
 
     // ==================== HERRAMIENTAS DE ESCRITURA DE CELDAS ====================
 
-    @Tool(name = "excel_write_cell", description = "Write a text value to a specific cell in an Excel file")
-    public boolean writeCellValue(String filePath, String sheetName, int row, int column, String value) {
-        return cellWriter.writeCellValue(filePath, sheetName, row, column, value);
-    }
-
-    @Tool(name = "excel_write_number", description = "Write a numeric value to a specific cell in an Excel file")
-    public boolean writeCellNumber(String filePath, String sheetName, int row, int column, double value) {
-        return cellWriter.writeCellNumber(filePath, sheetName, row, column, value);
-    }
-
-    @Tool(name = "excel_write_formula", description = "Write a formula to a specific cell in an Excel file")
-    public boolean writeCellFormula(String filePath, String sheetName, int row, int column, String formula) {
-        return cellWriter.writeCellFormula(filePath, sheetName, row, column, formula);
-    }
-
-    @Tool(name = "excel_write_boolean", description = "Write a boolean value to a specific cell in an Excel file")
-    public boolean writeCellBoolean(String filePath, String sheetName, int row, int column, boolean value) {
-        return cellWriter.writeCellBoolean(filePath, sheetName, row, column, value);
-    }
-
-    @Tool(name = "excel_clear_cell", description = "Clear the content of a specific cell in an Excel file")
-    public boolean clearCell(String filePath, String sheetName, int row, int column) {
-        return cellWriter.clearCell(filePath, sheetName, row, column);
+    @Tool(name = "excel_modify_cells", description = "Modify multiple cells in a sheet with different types of content (text, numbers, formulas, booleans) in a single operation")
+    public boolean modifyCells(String filePath, String sheetName, List<CellModification> modifications) {
+        return cellWriter.modifyCells(filePath, sheetName, modifications);
     }
 
     // ==================== HERRAMIENTAS DE FORMATO Y ESTILO ====================

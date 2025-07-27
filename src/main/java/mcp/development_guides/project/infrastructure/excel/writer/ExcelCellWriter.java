@@ -1,5 +1,6 @@
 package mcp.development_guides.project.infrastructure.excel.writer;
 
+import mcp.development_guides.project.domain.model.CellModification;
 import mcp.development_guides.project.domain.model.CellPosition;
 import mcp.development_guides.project.domain.model.ExcelRange;
 import mcp.development_guides.project.infrastructure.excel.core.ExcelFileHandler;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Editor especializado en celdas individuales
@@ -143,6 +145,57 @@ public class ExcelCellWriter {
                         }
                     }
                 }
+                return true;
+            });
+    }
+
+    /**
+     * Modifica múltiples celdas en una sola operación
+     */
+    public boolean modifyCells(String filePath, String sheetName, List<CellModification> modifications) {
+        return modifyWorkbook(filePath,
+            String.format("Modifying %d cells in sheet '%s'", modifications.size(), sheetName),
+            (workbook, path) -> {
+                Sheet sheet = getOrCreateSheet(workbook, sheetName);
+
+                for (CellModification modification : modifications) {
+                    CellPosition position = modification.position();
+                    Object value = modification.value();
+                    CellModification.ModificationType type = modification.type();
+
+                    switch (type) {
+                        case TEXT:
+                            Cell textCell = getOrCreateCell(sheet, position.row(), position.column());
+                            textCell.setCellValue((String) value);
+                            break;
+
+                        case NUMBER:
+                            Cell numberCell = getOrCreateCell(sheet, position.row(), position.column());
+                            numberCell.setCellValue(((Number) value).doubleValue());
+                            break;
+
+                        case FORMULA:
+                            Cell formulaCell = getOrCreateCell(sheet, position.row(), position.column());
+                            formulaCell.setCellFormula((String) value);
+                            break;
+
+                        case BOOLEAN:
+                            Cell booleanCell = getOrCreateCell(sheet, position.row(), position.column());
+                            booleanCell.setCellValue((Boolean) value);
+                            break;
+
+                        case CLEAR:
+                            Row sheetRow = sheet.getRow(position.row());
+                            if (sheetRow != null) {
+                                Cell cellToClear = sheetRow.getCell(position.column());
+                                if (cellToClear != null) {
+                                    sheetRow.removeCell(cellToClear);
+                                }
+                            }
+                            break;
+                    }
+                }
+
                 return true;
             });
     }
