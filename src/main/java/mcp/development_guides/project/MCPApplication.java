@@ -11,7 +11,6 @@ import java.util.List;
 
 @SpringBootApplication
 public class MCPApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(MCPApplication.class, args);
 	}
