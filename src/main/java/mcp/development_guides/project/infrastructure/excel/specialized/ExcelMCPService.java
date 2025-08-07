@@ -1,12 +1,7 @@
 package mcp.development_guides.project.infrastructure.excel.specialized;
 
-import mcp.development_guides.project.domain.model.CellModification;
-import mcp.development_guides.project.domain.model.CellPosition;
-import mcp.development_guides.project.domain.model.ExcelCellData;
-import mcp.development_guides.project.domain.model.ExcelRange;
-import mcp.development_guides.project.domain.model.ExcelSheetData;
-import mcp.development_guides.project.domain.model.ExcelSheetInfo;
-import mcp.development_guides.project.domain.model.Variable;
+import mcp.development_guides.project.application.service.TemplateService;
+import mcp.development_guides.project.domain.model.*;
 import mcp.development_guides.project.application.service.VariableService;
 import mcp.development_guides.project.infrastructure.excel.core.ExcelFileHandler;
 import mcp.development_guides.project.infrastructure.excel.reader.ExcelCellReader;
@@ -63,34 +58,15 @@ public class ExcelMCPService {
     @Autowired
     private ExcelFileWriter fileWriter;
 
-    // DEPENDENCIAS VARIABLES
+    // TEMPLATES
     @Autowired
-    private VariableService variableService;
+    private TemplateService templateService;
 
-    // ==================== HERRAMIENTAS DE VARIABLES Y CONFIGURACIÓN ====================
+    // ==================== TEMPLATES ====================
 
-    @Tool(name = "read_variables", description = "Read all variables from the JSON configuration file")
-    public List<Variable> readVariables() {
-        return variableService.getAllVariables();
-    }
-
-    @Tool(name = "get_variable_by_name", description = "Get a specific variable by its name")
-    public Variable getVariableByName(String name) {
-        return variableService.findVariableByName(name).orElse(null);
-    }
-
-    @Tool(name = "validate_variables_config", description = "Validate all variables in the configuration")
-    public Map<String, Object> validateVariablesConfig() {
-        Map<String, Object> result = new HashMap<>();
-        boolean isValid = variableService.validateAllVariables();
-        List<Variable> invalidVariables = variableService.getInvalidVariables();
-
-        result.put("isValid", isValid);
-        result.put("totalVariables", variableService.countVariables());
-        result.put("invalidVariables", invalidVariables);
-        result.put("invalidCount", invalidVariables.size());
-
-        return result;
+    @Tool(name = "read_templates", description = "Read all templates from the JSON configuration file")
+    public List<Template> readTemplates() {
+        return templateService.getAllTemplates();
     }
 
     // ==================== HERRAMIENTAS DE CARGA Y INFORMACIÓN ====================

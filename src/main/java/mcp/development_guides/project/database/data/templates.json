@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Basic Template",
+    "description": "First template for microservice development",
+    "path": "/home/juanerq/Documents/mcp/excel/template-guia.xlsx",
+    "type": "EXCEL",
+    "variables": [
+      [
+        {
+          "name": "v_name_ms",
+          "description": "Nombre del microservicio",
+          "type": "TEXT",
+          "row": 3,
+          "column": 3
+        },
+        {
+          "name": "v_description_ms",
+          "description": "Descipción del microservicio",
+          "type": "TEXT",
+          "row": 3,
+          "column": 6
+        },
+        {
+          "name": "v_namespace_ms",
+          "description": "Namespace del microservicio",
+          "type": "TEXT",
+          "row": 8,
+          "column": 4
+        },
+        {
+          "name": "v_urlrepo_ms",
+          "description": "URL del repositorio del microservicio",
+          "type": "TEXT",
+          "row": 16,
+          "column": 4
+        },
+        {
+          "name": "v_branch_ms",
+          "description": "Branch del repositorio del microservicio",
+          "type": "TEXT",
+          "row": 17,
+          "column": 4
+        }
+      ]
+    ]
+  }
+]

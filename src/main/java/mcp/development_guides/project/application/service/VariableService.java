@@ -1,10 +1,12 @@
 package mcp.development_guides.project.application.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import mcp.development_guides.project.domain.model.Variable;
 import mcp.development_guides.project.infrastructure.util.JsonReaderUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +18,12 @@ public class VariableService {
 
     private final JsonReaderUtil jsonReaderUtil;
 
-    @Autowired
+    @Value("{app.data.file.variables}")
+    private String variablesFileName;
+
+    @Value("${app.data.directory:data}")
+    private String dataDirectory;
+
     public VariableService(JsonReaderUtil jsonReaderUtil) {
         this.jsonReaderUtil = jsonReaderUtil;
     }
@@ -25,7 +32,9 @@ public class VariableService {
      * Get all variables from the configuration
      */
     public List<Variable> getAllVariables() {
-        return jsonReaderUtil.readVariables();
+        String filePath = Paths.get(dataDirectory, variablesFileName).toString();
+        TypeReference<List<Variable>> typeReference = new TypeReference<>() {};
+        return jsonReaderUtil.readFile(filePath, typeReference);
     }
 
     /**
@@ -68,12 +77,5 @@ public class VariableService {
      */
     public long countVariables() {
         return getAllVariables().size();
-    }
-
-    /**
-     * Check if a variable exists by name
-     */
-    public boolean variableExists(String name) {
-        return findVariableByName(name).isPresent();
     }
 }

@@ -1,9 +1,0 @@
-[
-  {
-    "name": "mcs-name",
-    "description": "Nombre de microservicio",
-    "type": "TEXT",
-    "row": 1,
-    "column": 1
-  }
-]
