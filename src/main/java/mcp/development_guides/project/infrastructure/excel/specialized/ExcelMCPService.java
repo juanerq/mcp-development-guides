@@ -2,7 +2,6 @@ package mcp.development_guides.project.infrastructure.excel.specialized;
 
 import mcp.development_guides.project.application.service.TemplateService;
 import mcp.development_guides.project.domain.model.*;
-import mcp.development_guides.project.application.service.VariableService;
 import mcp.development_guides.project.infrastructure.excel.core.ExcelFileHandler;
 import mcp.development_guides.project.infrastructure.excel.reader.ExcelCellReader;
 import mcp.development_guides.project.infrastructure.excel.reader.ExcelSheetReader;
@@ -64,9 +63,14 @@ public class ExcelMCPService {
 
     // ==================== TEMPLATES ====================
 
-    @Tool(name = "read_templates", description = "Read all templates from the JSON configuration file")
+    @Tool(name = "read_templates", description = "Read all templates from the Database")
     public List<Template> readTemplates() {
         return templateService.getAllTemplates();
+    }
+
+    @Tool(name = "read_template_by_name", description = "Read a specific template by its name")
+    public Template readTemplateByName(String name) {
+        return templateService.getTemplateByName(name);
     }
 
     // ==================== HERRAMIENTAS DE CARGA Y INFORMACIÓN ====================
